@@ -1,6 +1,7 @@
 import { NgModule, NgZone, OpaqueToken, Inject, Optional } from '@angular/core';
 import { LIB_KEY, LIB_KEY_SEPARATOR } from './constants/lib';
 import { STORAGE } from './enums/storage';
+import { isBrowser } from 'angular2-universal';
 import { LocalStorageService, SessionStorageService } from './services/index';
 import { WebStorageHelper } from './helpers/webStorage';
 import { WebstorageConfig } from './interfaces/config';
@@ -38,7 +39,7 @@ export var Ng2Webstorage = (function () {
     };
     Ng2Webstorage.prototype.initStorageListener = function () {
         var _this = this;
-        if (window) {
+        if (isBrowser) {
             window.addEventListener('storage', function (event) { return _this.ngZone.run(function () {
                 var storage = window.sessionStorage === event.storageArea ? STORAGE.session : STORAGE.local;
                 WebStorageHelper.refresh(storage, event.key);
